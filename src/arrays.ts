@@ -31,7 +31,11 @@ export function tripleNumbers(numbers: number[]): number[] {
  * the number cannot be parsed as an integer, convert it to 0 instead.
  */
 export function stringsToIntegers(numbers: string[]): number[] {
-    return [];
+    const integers = numbers.map((number: string): number =>
+        !isNaN(Number(number)) ? Number(number) : 0,
+    );
+
+    return integers;
 }
 
 /**
@@ -42,7 +46,17 @@ export function stringsToIntegers(numbers: string[]): number[] {
  */
 // Remember, you can write functions as lambdas too! They work exactly the same.
 export const removeDollars = (amounts: string[]): number[] => {
-    return [];
+    // Remove $ if it exists
+    const removedSymbols = amounts.map((amount: string): string =>
+        amount[0] === "$" ? amount.slice(1) : amount,
+    );
+
+    // Handle if the result can be parsed into an integer
+    const values = removedSymbols.map((amount: string): number =>
+        !isNaN(Number(amount)) ? Number(amount) : 0,
+    );
+
+    return values;
 };
 
 /**
@@ -51,7 +65,16 @@ export const removeDollars = (amounts: string[]): number[] => {
  * in question marks ("?").
  */
 export const shoutIfExclaiming = (messages: string[]): string[] => {
-    return [];
+    const removedQuestionMarks = messages.filter(
+        (message: string): boolean => message[message.length - 1] !== "?",
+    );
+
+    // Uppercase strings that ends with "!"
+    const upperCased = removedQuestionMarks.map((message: string): string =>
+        message[message.length - 1] === "!" ? message.toUpperCase() : message,
+    );
+
+    return upperCased;
 };
 
 /**
@@ -59,7 +82,8 @@ export const shoutIfExclaiming = (messages: string[]): string[] => {
  * 4 letters long.
  */
 export function countShortWords(words: string[]): number {
-    return 0;
+    const shortWords = words.filter((word: string): boolean => word.length < 4);
+    return shortWords.length;
 }
 
 /**
