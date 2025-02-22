@@ -92,7 +92,16 @@ export function countShortWords(words: string[]): number {
  * then return true.
  */
 export function allRGB(colors: string[]): boolean {
-    return false;
+    if (colors.length === 0) {
+        return true;
+    }
+
+    const isAllRGB = colors.every(
+        (color: string): boolean =>
+            color === "red" || color === "blue" || color === "green",
+    );
+
+    return isAllRGB;
 }
 
 /**
@@ -103,7 +112,18 @@ export function allRGB(colors: string[]): boolean {
  * And the array [] would become "0=0".
  */
 export function makeMath(addends: number[]): string {
-    return "";
+    if (addends.length === 0) {
+        return "0=0";
+    }
+
+    const sum = addends.reduce((total: number, num: number) => total + num, 0);
+
+    const addPlusSigns = addends
+        .map((num: number, i) =>
+            i === addends.length - 1 ? String(num) : String(num) + "+",
+        )
+        .join("");
+    return `${String(sum)}=${addPlusSigns}`;
 }
 
 /**
@@ -116,5 +136,28 @@ export function makeMath(addends: number[]): string {
  * And the array [1, 9, 7] would become [1, 9, 7, 17]
  */
 export function injectPositive(values: number[]): number[] {
-    return [];
+    const clonedValues = [...values];
+
+    // Output -1 if there's no negative number
+    const negativeIndex = clonedValues.findIndex(
+        (value: number): boolean => value < 0,
+    );
+    let sumArr: number[] = clonedValues;
+
+    // Get the subArr that we want to sum up
+    if (negativeIndex !== -1) {
+        sumArr = clonedValues.slice(0, negativeIndex);
+    }
+
+    const sum = sumArr.reduce(
+        (total: number, value: number): number => total + value,
+        0,
+    );
+
+    // Insert the sum to correct position if there exist a negative number
+    if (negativeIndex !== -1) {
+        clonedValues.splice(negativeIndex + 1, 0, sum);
+        return clonedValues;
+    }
+    return [...clonedValues, sum];
 }
